@@ -4,7 +4,7 @@
  */
 
 /**
- * ASSIGNEMENT
+ * ASSIGNMENT
  * Edit the following program removing every use of the type any and
  * adding types where appropriate.
  */

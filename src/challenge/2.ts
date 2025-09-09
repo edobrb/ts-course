@@ -30,6 +30,7 @@ function splitIntoGroups(values: (number | Date | User | Admin)[]): SplitResult 
   const result: SplitResult = { admins: [], dates: [], numbers: [], users: [] }
   for (const value of values) {
     //TODO: implement the narrowing logic by replacing the true with the correct condition
+    //HINT: available narrowing techniques: typeof, instanceof, in
     if (true) {
       result.numbers.push(value)
     } else if (true) {
