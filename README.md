@@ -5,7 +5,7 @@ This repository contains the exercises and solutions for the TeamSystem TS Cours
 ## Setup
 
 1. Clone the repository
-2. Run `nvm use 24`
+2. Install Node.js version 24 (`nvm use 24` if you have nvm installed)
 3. Run `npm install`
 4. Maybe disable copilot suggestions :)
 

@@ -4,12 +4,12 @@
  */
 
 /**
- * ASSIGNEMENT
+ * ASSIGNMENT
  * Implement the narrowing logic inside the splitIntoGroups function
  */
 
 /**
- * Usefull resources:
+ * Useful resources:
  *  - https://www.typescriptlang.org/docs/handbook/2/narrowing.html
  */
 
