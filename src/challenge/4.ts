@@ -1,60 +1,48 @@
-// ASSIGNMENT: Build a fully typed groupBy function
-// Create a type system for a groupBy function that can group by different types.
-//
-// Requirements:
-// 1. Complete GetAllowedKeys type
-// 2. Complete GroupByResult type
-// 3. Complete groupBy function
-//
-// Start with this code:
+// ASSIGNMENT: Create a coherent type system for Either
 
-//Allowed keys for grouping
-type AllowedKeys = string | number | symbol
+type Either<S, F> = Success<S> | Failure<F>
 
-//Adds constraints to the generic parameters
-//Implement this time in order to return only the keys of the object that the corresponding field is of type AllowedKeys
-type GetAllowedKeys<T> = unknown
+type Success<T> = unknown
 
-//Adds constraints to the generic parameters
-//Implement this time in order to return a record where the keys are of the type that we are grouping on, the values should be an array of the items
-type GroupByResult<T, K> = unknown
+type Failure<T> = unknown
 
-//Adds constraints to the generic parameters
-function groupBy<T, K>(array: T[], field: K): GroupByResult<T, K> {
-  return array.reduce(
-    (acc, item) => {
-      const key = item[field]
-      if (key !== null && key !== undefined) {
-        const keyAsAllowed = key as Extract<T[K], AllowedKeys>
-        const group = (acc[keyAsAllowed] ?? []) as T[]
-        group.push(item)
-        acc[keyAsAllowed] = group
-      }
-      return acc
-    },
-    {} as GroupByResult<T, K>,
-  )
+function success<S>(value: S): Either<S, never> {
+  throw new Error('Not implemented')
 }
 
-// Example usage
+function failure<F>(error: F): Either<never, F> {
+  throw new Error('Not implemented')
+}
+
+function isSuccess<S, F>(value: Either<S, F>): value is Success<S> {
+  throw new Error('Not implemented')
+}
+
+function map<S, F, T>(either: Either<S, F>, fn: (value: S) => T): Either<T, F> {
+  throw new Error('Not implemented')
+}
+
+//Example usage
 
 type User = {
+  id: string
   name: string
-  surname?: string
-  type: 'user' | 'admin'
-  age: number
-  metadata: Record<string, unknown>
 }
 
-const users: User[] = [
-  { name: 'John', type: 'user', age: 20, metadata: {} },
-  { name: 'Jane', type: 'user', age: 21, metadata: {} },
-  { name: 'Jane', type: 'admin', age: 23, metadata: {} },
-]
+function fetchUser(id: string): Either<User, string> {
+  if (Math.random() > 0.5) {
+    return failure('User not found')
+  }
+  return success({ id, name: 'John' })
+}
 
-//result should be typed as { user?: User[], admin?: User[] }
-//the second argument should be only allow keys 'name', 'type', 'age'
-const result = groupBy(users, 'type')
-console.log(result)
+const user = fetchUser('1')
+const userName = map(user, (user) => user.name)
+
+if (isSuccess(userName)) {
+  console.log(userName.value)
+} else {
+  console.log(userName.error)
+}
 
 export {}
