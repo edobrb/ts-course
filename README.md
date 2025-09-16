@@ -1,6 +1,6 @@
 # TS Course
 
-This repository contains the exercises and solutions for the TeamSystem TS Course.
+This repository contains the challenges and solutions for the TeamSystem TS Course.
 
 ## Setup
 
