@@ -32,12 +32,12 @@ function splitIntoGroups(values: (number | Date | User | Admin)[]): SplitResult 
     if (typeof value === 'number') {
       result.numbers.push(value) // Hover the mouse over the value, you can see it's narrowed to number
     } else if (value instanceof Date) {
-      result.dates.push(value) // Same for Date
+      result.dates.push(value)
     } else if ('occupation' in value) {
       // What if a 'occupation' field is added to the Admin type?
-      result.users.push(value) // Same for User
+      result.users.push(value)
     } else {
-      result.admins.push(value) // Same for Admin
+      result.admins.push(value)
     }
   }
   return result

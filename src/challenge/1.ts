@@ -13,15 +13,15 @@ function oddOrEven(n: any): any {
   return n % 2 === 1 ? 'odd' : 'even'
 }
 
-function splitOddFromEven(length: any): any {
+function generateOddAndEven(count: any): any {
   const result: any = { odd: [], even: [] }
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < count; i++) {
     result[oddOrEven(i)].push(i)
   }
   return result
 }
 
-const result = splitOddFromEven(20)
+const result = generateOddAndEven(20)
 console.log(result)
 
 export {}
