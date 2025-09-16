@@ -2,22 +2,25 @@
 // Create a type system for a groupBy function that can group by different types.
 //
 // Requirements:
-// 1. Complete GetAllowedKeys type, it should return only the keys of the object that the corresponding field is of type AllowedKeys
+// 1. Complete GetAllowedKeys type
 // 2. Complete GroupByResult type
 // 3. Complete groupBy function
 //
 // Start with this code:
 
+//Allowed keys for grouping
 type AllowedKeys = string | number | symbol
 
+//Adds constraints to the generic parameters
+//Implement this time in order to return only the keys of the object that the corresponding field is of type AllowedKeys
 type GetAllowedKeys<T> = unknown
 
+//Adds constraints to the generic parameters
+//Implement this time in order to return a record where the keys are of the type that we are grouping on, the values should be an array of the items
 type GroupByResult<T, K> = unknown
 
-function groupBy<T extends Record<string, unknown>, K extends GetAllowedKeys<T>>(
-  array: T[],
-  field: K,
-): GroupByResult<T, K> {
+//Adds constraints to the generic parameters
+function groupBy<T, K>(array: T[], field: K): GroupByResult<T, K> {
   return array.reduce(
     (acc, item) => {
       const key = item[field]

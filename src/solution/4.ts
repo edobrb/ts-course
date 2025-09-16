@@ -2,15 +2,18 @@
 // Create a type system for a groupBy function that can group by different types.
 //
 // Requirements:
-// 1. Complete GetAllowedKeys type, it should return only the keys of the object that the corresponding field is of type AllowedKeys
+// 1. Complete GetAllowedKeys type
 // 2. Complete GroupByResult type
 // 3. Complete groupBy function
 //
 // Start with this code:
 
+//Allowed keys for grouping
 type AllowedKeys = string | number | symbol
 
-type GetAllowedKeys<T> = { [K in keyof Required<T>]: T[K] extends AllowedKeys ? K : never }[keyof T]
+type GetAllowedKeys<T extends Record<string, unknown>> = {
+  [K in keyof Required<T>]: T[K] extends AllowedKeys ? K : never
+}[keyof T]
 
 type GroupByResult<T extends Record<string, unknown>, K extends GetAllowedKeys<T>> = Partial<
   Readonly<Record<Extract<T[K], AllowedKeys>, readonly T[]>>
