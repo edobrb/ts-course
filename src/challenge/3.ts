@@ -1,4 +1,4 @@
-// ASSIGNMENT: Building a Form Field Validator
+// ASSIGNMENT: Building a Schema Validator
 //
 // Requirements:
 // 1. Add support for boolean fields
@@ -17,29 +17,29 @@ type BaseFieldOptions = {
 
 type Field = BaseFieldOptions & (TextField | NumberField)
 
-type Form = Record<string, Field>
+type Schema = Record<string, Field>
 
-type FormType<F extends Form> = {
-  [K in keyof F]: FieldType<F[K]> | (F[K]['required'] extends true ? never : undefined)
+type SchemaType<T extends Schema> = {
+  [K in keyof T]: FieldType<T[K]> | (T[K]['required'] extends true ? never : undefined)
 }
 
 type FieldType<F extends Field> = F extends TextField ? string : F extends NumberField ? number : never
 
-type ValidationResult<F extends Form> =
+type ValidationResult<T extends Schema> =
   | {
       success: true
-      value: FormType<F>
+      value: SchemaType<T>
     }
   | {
       success: false
       errors: string[]
     }
 
-function validateForm<const F extends Form>(formFields: F, value: Record<string, unknown>): ValidationResult<F> {
+function validateValue<const T extends Schema>(SchemaFields: T, value: Record<string, unknown>): ValidationResult<T> {
   const errors: string[] = []
   const resultValue: Record<string, unknown> = {}
 
-  for (const [key, field] of Object.entries(formFields)) {
+  for (const [key, field] of Object.entries(SchemaFields)) {
     const v = value[key]
     const type = typeof v
     if (field.required && v === undefined) {
@@ -81,7 +81,7 @@ function validateForm<const F extends Form>(formFields: F, value: Record<string,
   if (Object.keys(errors).length > 0) {
     return { success: false, errors }
   }
-  return { success: true, value: resultValue as FormType<F> }
+  return { success: true, value: resultValue as SchemaType<T> }
 }
 
 // Example usage
@@ -91,14 +91,13 @@ const inputData: Record<string, unknown> = {
   //allowDataUsage: true,
 }
 
-const result = validateForm(
-  {
-    username: { type: 'text', required: true, label: 'Username', minLength: 3, maxLength: 20 },
-    age: { type: 'number', required: false, label: 'Age', min: 1, max: 100 },
-    //allowDataUsage: { type: 'boolean', required: true, label: 'Allow Data Usage' },
-  },
-  inputData,
-)
+const schema = {
+  username: { type: 'text', required: true, label: 'Username', minLength: 3, maxLength: 20 },
+  age: { type: 'number', required: false, label: 'Age', min: 1, max: 100 },
+  //allowDataUsage: { type: 'boolean', required: true, label: 'Allow Data Usage' },
+} as const satisfies Schema
+
+const result = validateValue(schema, inputData)
 
 if (result.success) {
   console.log(result.value)
