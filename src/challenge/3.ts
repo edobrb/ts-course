@@ -85,17 +85,17 @@ function validateValue<const T extends Schema>(SchemaFields: T, value: Record<st
 }
 
 // Example usage
-const inputData: Record<string, unknown> = {
-  username: 'John',
-  age: 20,
-  //allowDataUsage: true,
-}
-
 const schema = {
   username: { type: 'text', required: true, label: 'Username', minLength: 3, maxLength: 20 },
   age: { type: 'number', required: false, label: 'Age', min: 1, max: 100 },
   //allowDataUsage: { type: 'boolean', required: true, label: 'Allow Data Usage' },
 } as const satisfies Schema
+
+const inputData: Record<string, unknown> = {
+  username: 'John',
+  age: 20,
+  //allowDataUsage: true,
+}
 
 const result = validateValue(schema, inputData)
 
